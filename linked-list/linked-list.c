@@ -99,26 +99,3 @@ int main()
 
   display(head);
 }
-
-// Older stuff
-  /*
-  node* list[5];
-  list[0] = createNode("hey there");
-  list[1] = createNode("blimpy boy");
-  list[2] = createNode("flying through");
-  list[3] = createNode("the sky");
-  list[4] = createNode("so fancy free.");
-
-  int i = 1;
-  for(; i < sizeof(list)/sizeof(list[0]); i++) {
-    appendNode(&list[0], list[i]);
-  }
-
-  node* head = list[0];
-
-  display(head);
-
-  node* newNode = createNode("ass face");
-  insertNode(&head, newNode, 3);
-  display(head);
-*/

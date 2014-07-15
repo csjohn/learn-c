@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "../linked-list/linked-list.h"
 
 typedef struct node {
   int data;
@@ -148,7 +149,7 @@ int numLeaves(node* theNode)
   return numLeaves;
 }
 
-bool findSums(node* theNode, int target, int currentSum)
+bool hasTargetSum(node* theNode, int target, int currentSum)
 {
   if (theNode->left == NULL && theNode->right == NULL)
     return (bool) ((currentSum + theNode->data) == target);
@@ -156,16 +157,38 @@ bool findSums(node* theNode, int target, int currentSum)
   bool leftSum = false;
   bool rightSum = false;
   if (theNode->left != NULL)
-    leftSum = (bool) findSums(theNode->left, target, currentSum + theNode->data);
+    leftSum = (bool) hasTargetSum(theNode->left, target, currentSum + theNode->data);
   if (theNode->right != NULL)
-    rightSum = (bool) findSums(theNode->right, target, currentSum + theNode->data);
+    rightSum = (bool) hasTargetSum(theNode->right, target, currentSum + theNode->data);
 
   return leftSum || rightSum;
 }
 
 bool hasPathSum(node* theNode, int target)
 {
-  return findSums(theNode, target, 0);
+  return hasTargetSum(theNode, target, 0);
+}
+
+void findSums(node* theNode, linkedListNode** list, int currentSum)
+{
+  if (theNode->left == NULL && theNode->right == NULL) {
+    char str[5];
+    sprintf(str, "%d", currentSum + theNode->data);
+    appendLinkedListNode(list, createLinkedListNode(str));
+  }
+
+  if (theNode->left != NULL)
+    findSums(theNode->left, list, currentSum + theNode->data);
+  if (theNode->right != NULL)
+    findSums(theNode->right, list, currentSum + theNode->data);
+}
+
+void getSums(node* theNode)
+{
+  int count = 0;
+  linkedListNode* list = NULL;
+  findSums(theNode, &list, 0);
+  displayLinkedList(list);
 }
 
 int main()
@@ -173,6 +196,9 @@ int main()
   node* myTree = createNode(2);
   insert(myTree, 4);
   insert(myTree, 9);
+  insert(myTree, 6);
+  insert(myTree, 3);
+  insert(myTree, 0);
   insert(myTree, 1);
   insert(myTree, 10);
   insert(myTree, -2);
@@ -192,4 +218,5 @@ int main()
   displayPostOrder(myTree);
   printf("Num leaves: %d\n", numLeaves(myTree));
   printf("Has sum 25?: %s\n", hasPathSum(myTree, 25) ? "Yup" : "Nope");
+  getSums(myTree);
 }

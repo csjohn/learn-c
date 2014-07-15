@@ -1,24 +1,20 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "linked-list.h"
 
-typedef struct node {
-  char data[40];
-  struct node *next;
-} node;
-
-node* createNode(char *data)
+linkedListNode* createLinkedListNode(char *data)
 {
-  node *newNode = malloc(sizeof(node));
+  linkedListNode *newNode = malloc(sizeof(linkedListNode));
   strcpy(newNode->data, data);
   newNode->next = NULL;
   return newNode;
 }
 
-void deleteNode(node** head, int index)
+void deleteLinkedListNode(linkedListNode** head, int index)
 {
-  node* prev = NULL;
-  node* current = *head;
+  linkedListNode* prev = NULL;
+  linkedListNode* current = *head;
 
   for (int i = 0; i < index; i++) {
     prev = current;
@@ -34,10 +30,10 @@ void deleteNode(node** head, int index)
   free(current);
 }
 
-void insertNode(node** head, node* newNode, int index)
+void insertLinkedListNode(linkedListNode** head, linkedListNode* newNode, int index)
 {
-  node* prev = NULL;
-  node* current = *head;
+  linkedListNode* prev = NULL;
+  linkedListNode* current = *head;
 
   for (int i = 0; i < index; i++) {
     prev = current;
@@ -52,13 +48,13 @@ void insertNode(node** head, node* newNode, int index)
   newNode->next = current;
 }
 
-void appendNode(node** head, node* newNode)
+void appendLinkedListNode(linkedListNode** head, linkedListNode* newNode)
 {
-  node* current = *head;
+  linkedListNode* current = *head;
 
   // Empty list
   if (current == NULL) {
-    return insertNode(head, newNode, 0);
+    return insertLinkedListNode(head, newNode, 0);
   }
 
   // Non-empty list
@@ -68,12 +64,12 @@ void appendNode(node** head, node* newNode)
     i++;
   }
 
-  insertNode(head, newNode, i);
+  insertLinkedListNode(head, newNode, i);
 }
 
-void display(node* head)
+void displayLinkedList(linkedListNode* head)
 {
-  node *current = head;
+  linkedListNode *current = head;
   while (current != NULL) {
     printf ("Node with data: \"%s\" at %p.\n", current->data, current);
     current = current->next;
@@ -81,9 +77,10 @@ void display(node* head)
   printf("\n\n\n");
 }
 
+/*
 int main()
 {
-  node* head = NULL;
+  linkedListNode* head = NULL;
   char input[40];
 
   while (1) {
@@ -93,9 +90,11 @@ int main()
       printf("Done and done!\n\n");
       break;
     }
-    node* newNode = createNode(input);
-    appendNode(&head, newNode);
+    linkedListNode* newNode = createLinkedListNode(input);
+    appendLinkedListNode(&head, newNode);
   }
 
-  display(head);
+  displayLinkedList(head);
 }
+*/
+
